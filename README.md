@@ -3,4 +3,4 @@
 Web-app for XML report analysis and visualisation.
 
 Working scheme
-![Scheme](/templates/Scheme2020.png)
+![Scheme](/static/Scheme2020.png)

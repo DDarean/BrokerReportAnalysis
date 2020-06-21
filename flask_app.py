@@ -1,10 +1,7 @@
 from flask import Flask, render_template, Markup
-import pandas as pd
-import numpy as np
 
 import readXML
 import alphaVantage
-import json
 
 from plotly.offline import plot
 from plotly.graph_objs import Scatter, Pie
@@ -26,7 +23,6 @@ def genIndex():
     open_positions = open_positions.reset_index().drop('order', axis = 1)
 
     # Данные для таблицы сделок
-    tableR = positions.to_html(justify = "center", classes = ["table", "table-striped", "table-sm", "table-bordered"])
     tableO = open_positions.to_html(justify = "center", classes = ["table", "table-striped", "table-sm", "table-bordered"])
     # Итоги торговли
     tradeResult = round(positions['volume_rur'].sum(),1)
@@ -47,7 +43,6 @@ def genIndex():
     openPie = plot([Pie(labels=labels, values=values, hole=.3)], output_type='div')
 
     return render_template('index.html',
-                       headrs=tableR,
                        openPos=tableO,
                        result=tradeResult,
                        commission=commissionTotal,
@@ -55,6 +50,28 @@ def genIndex():
                        resultPie=Markup(resultPie),
                        openPie=Markup(openPie))
 
+def genResult():
+    # Обработка отчёта
+    orders = readXML.read_xml('/home/DDarean/mysite/report/Broker_Report.xml')
+    orders, open_orders = readXML.found_orders(orders)
+    positions = readXML.preparePositionsDF(orders)
+    # Данные для таблицы сделок
+    tableR = positions.to_html(justify = "center", classes = ["table", "table-striped", "table-sm", "table-bordered"])
+    return render_template('OrdersTable.html', headrs=tableR)
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     return genIndex()
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    return genResult()
+
+@app.route("/analysis", methods=["GET", "POST"])
+def analysis():
+    return render_template('analysis.html')
+
+@app.route("/about", methods=["GET", "POST"])
+def about():
+    scheme_url = "/static/Scheme2020.png"
+    return render_template('about.html', scheme_img = scheme_url)

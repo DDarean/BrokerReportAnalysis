@@ -34,7 +34,6 @@
                 <li>
                     <a href="/">Trade Result</a>
                 </li>
-
                 <li>
                     <a href="/result">Orders List</a>
                 </li>
@@ -52,41 +51,15 @@
         <!-- Page Content  -->
         <div id="content">
 
-
             <div class="container-fluid">
-            <h3>Trade Result: {{result | safe}} руб.  <p>  Comission: -{{commission | safe}} .руб</h3>
+            <h2> App description </h2><br>
+            Web-app for XML report analysis and visualisation.<br>
+            (!) MySQL functions under development <br>
+            Working scheme <br>
             </div>
-
-            <div class="container-fluid">
-            <h2> Открытые позиции </h2>
-            {% block content %}
-            {{openPos | safe}}
-            {% endblock %}
+            <div class="container">
+                <img src="{{scheme_img}}" class="img-fluid">
             </div>
-
-            <div class="container-fluid">
-              <div class="row">
-                <div class = "col-sm-6">
-                  <h4> Открытые позиции </h4>
-                  {{ openPie }}
-                </div>
-                <div class = "col-sm-6">
-                  <h4> Закрытые сделки </h4>
-                  {{ resultPie }}
-                </div>
-              </div>
-            </div>
-
-            <div class="container-fluid">
-            <h4> График доходности </h4>
-            {{ div_placeholder }}
-            </div>
-
-
-
-
-
-        </div>
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
